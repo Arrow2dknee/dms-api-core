@@ -3,6 +3,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 
 import { FilesController } from './files.controller';
 import { FILES_SERVICE_NAME, FILE_PACKAGE_NAME } from './file.pb';
+import { UsersModule } from '../users/users.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { FILES_SERVICE_NAME, FILE_PACKAGE_NAME } from './file.pb';
         },
       },
     ]),
+    UsersModule,
   ],
   controllers: [FilesController],
 })

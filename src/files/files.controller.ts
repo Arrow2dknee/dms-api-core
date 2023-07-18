@@ -8,6 +8,7 @@ import {
   Get,
   Query,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
@@ -26,8 +27,10 @@ import {
   DeleteFileResponse,
 } from './file.pb';
 import { PaginationDto } from '../common/dto/pagination.dto';
+import { AuthGuard } from '../users/auth.guard';
 
-@Controller('file')
+@Controller('files')
+@UseGuards(AuthGuard)
 export class FilesController implements OnModuleInit {
   private fileService: FilesServiceClient;
   @Inject(FILES_SERVICE_NAME)
