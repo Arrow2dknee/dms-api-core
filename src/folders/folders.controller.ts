@@ -7,7 +7,7 @@ import {
   OnModuleInit,
   Inject,
   Body,
-  Query,
+  Request,
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
@@ -39,21 +39,28 @@ export class FoldersController implements OnModuleInit {
   @Post()
   async createNewFolder(
     @Body() dto: CreateFolderRequest,
+    @Request() req: any,
   ): Promise<Observable<CreateFolderResponse>> {
-    return this.folderService.createFolder(dto);
+    return this.folderService.createFolder({ name: dto.name, user: req.user });
   }
 
   @Put()
   async updateName(
-    dto: UpdateFolderNameRequest,
+    @Body() dto: UpdateFolderNameRequest,
+    @Request() req: any,
   ): Promise<Observable<UpdateFolderNameResponse>> {
-    return this.folderService.updateFolderName(dto);
+    return this.folderService.updateFolderName({
+      id: dto.id,
+      name: dto.name,
+      user: req.user,
+    });
   }
 
   @Delete()
   async deleteFolder(
-    @Query() dto: DeleteFolderRequest,
+    @Body() dto: DeleteFolderRequest,
+    @Request() req: any,
   ): Promise<Observable<DeleteFolderResponse>> {
-    return this.folderService.deleteFolder(dto);
+    return this.folderService.deleteFolder({ id: dto.id, user: req.user });
   }
 }
