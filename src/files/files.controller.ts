@@ -26,6 +26,8 @@ import {
   FindAllResponse,
   DeleteFileRequest,
   DeleteFileResponse,
+  GetFilesOfFolderRequest,
+  GetFilesOfFolderResponse,
 } from './file.pb';
 import { PaginationDto } from '../common/dto/pagination.dto';
 import { AuthGuard } from '../users/auth.guard';
@@ -86,5 +88,13 @@ export class FilesController implements OnModuleInit {
     @Request() req: any,
   ): Promise<Observable<DeleteFileResponse>> {
     return this.fileService.deleteFile({ id: dto.id, user: req.user });
+  }
+
+  @Get('/folder')
+  async filesInFolder(
+    @Query() dto: GetFilesOfFolderRequest,
+    @Request() req: any,
+  ): Promise<Observable<GetFilesOfFolderResponse>> {
+    return this.fileService.getFilesOfFolder({ ...dto, user: req.user });
   }
 }

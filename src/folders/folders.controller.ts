@@ -8,6 +8,8 @@ import {
   Inject,
   Body,
   Request,
+  Get,
+  Query,
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
@@ -22,7 +24,9 @@ import {
   UpdateFolderNameResponse,
   DeleteFolderRequest,
   DeleteFolderResponse,
+  GetFoldersResponse,
 } from './folder.pb';
+import { PaginationDto } from '../common/dto/pagination.dto';
 
 @Controller('folders')
 @UseGuards(AuthGuard)
@@ -62,5 +66,13 @@ export class FoldersController implements OnModuleInit {
     @Request() req: any,
   ): Promise<Observable<DeleteFolderResponse>> {
     return this.folderService.deleteFolder({ id: dto.id, user: req.user });
+  }
+
+  @Get()
+  async getFolders(
+    @Query() dto: PaginationDto,
+    @Request() req: any,
+  ): Promise<Observable<GetFoldersResponse>> {
+    return this.folderService.getFolders({ ...dto, user: req.user });
   }
 }
