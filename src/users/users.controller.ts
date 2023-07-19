@@ -1,11 +1,4 @@
-import {
-  Controller,
-  OnModuleInit,
-  Inject,
-  Post,
-  Body,
-  UseFilters,
-} from '@nestjs/common';
+import { Controller, OnModuleInit, Inject, Post, Body } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 
@@ -17,7 +10,6 @@ import {
   LoginRequest,
   LoginResponse,
 } from './user.pb';
-import { ValidationPipe } from '../common/pipes/validation.pipe';
 
 @Controller('users')
 export class UsersController implements OnModuleInit {
@@ -33,7 +25,7 @@ export class UsersController implements OnModuleInit {
 
   @Post('/register')
   async register(
-    @Body(new ValidationPipe()) dto: RegisterRequest,
+    @Body() dto: RegisterRequest,
   ): Promise<Observable<RegisterResponse>> {
     return this.userService.register(dto);
   }
